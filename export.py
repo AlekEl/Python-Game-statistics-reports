@@ -13,10 +13,12 @@ def open_file(file_name):
     except FileNotFoundError as err:
         raise err
 
+
 def count_games(file_name):
     """Returns number of lines in a file (games)"""
     content = open_file(file_name)
     return "Number of games in the file: {0}\n".format(len(content))
+
 
 def decide(file_name, year):
     """Returns True if there is a game from given year in a file. Otherwise returns False"""
@@ -27,6 +29,7 @@ def decide(file_name, year):
         if str(year) in game:
             return "There is a game from {0} in the file\n".format(year)
     return "There is no game from {0} in the file\n".format(year)
+
 
 def get_latest(file_name):
     """Returns title of the latest game in the file"""
@@ -41,6 +44,7 @@ def get_latest(file_name):
             latest[0] = game_name
             latest[1] = game_year
     return "Latest game from the file: {0}\n".format(latest[0])
+
 
 def count_by_genre(file_name, genre):
     """Returns the number of games from given genre from the file"""
@@ -59,6 +63,7 @@ def count_by_genre(file_name, genre):
     else:
         return "There are no {0} in the file\n".format(genre)
 
+
 def get_line_number_by_title(file_name, title):
     """Returns the number of line of a given game(title) from the file"""
     if type(title) != str:
@@ -72,6 +77,7 @@ def get_line_number_by_title(file_name, title):
         raise err
     return "{0} is on the {1} line of the file\n".format(title, line)
 
+
 def export_answers(file_name):
     try:
         year = int(input("Year of the game: "))
@@ -80,14 +86,15 @@ def export_answers(file_name):
     genre = input("Genre of the game: ")
     title = input("Title of the game: ")
     functions = [count_games(file_name),
-                decide(file_name, year),
-                get_latest(file_name),
-                count_by_genre(file_name, genre),
-                get_line_number_by_title(file_name, title)]
+                 decide(file_name, year),
+                 get_latest(file_name),
+                 count_by_genre(file_name, genre),
+                 get_line_number_by_title(file_name, title)]
     answers = ""
     for answer in functions:
         answers += answer
     with open("answers.txt", "w") as f:
         f.write(answers)
+
 
 export_answers("game_stat.txt")

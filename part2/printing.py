@@ -13,7 +13,9 @@ def open_file(file_name):
     except FileNotFoundError as err:
         raise err
 
+
 def get_most_played(file_name):
+    """Return and print best selling game from the file"""
     content = open_file(file_name)
     game_name = content[0][0]
     copies_sold = int(content[0][1])
@@ -24,41 +26,55 @@ def get_most_played(file_name):
         if best_selling_game[1] < copies_sold:
             best_selling_game[0] = game_name
             best_selling_game[1] = copies_sold
+    print("Best selling game from the file is {0}.".format(best_selling_game[0]))
     return best_selling_game[0]
 
+
 def sum_sold(file_name):
+    """Return and print  sum of sold copies of all the games from the file"""
     content = open_file(file_name)
     copies_sold_index = 1
     sum_of_copies_sold = 0
     for game in content:
         sum_of_copies_sold += float(game[copies_sold_index])
+    print("Sum of copies sold: {0}".format(sum_of_copies_sold))
     return sum_of_copies_sold
 
+
 def get_selling_avg(file_name):
+    """Return and print  average number of sold copies from all the games from file"""
     content = open_file(file_name)
     avg = sum_sold(file_name)/len(content)
+    print("Average number of copies sold: {0}".format(avg))
     return avg
 
+
 def count_longest_title(file_name):
+    """Return and print  number of characters in longest game title from the file"""
     content = open_file(file_name)
     title_index = 0
     longest_title = len(content[0][title_index])
     for game in range(1, len(content)):
         if longest_title < len(content[game][title_index]):
-            stri = content[game][title_index]
             longest_title = len(content[game][title_index])
+    print("Longest title rom the file has {0} characters".format(longest_title))
     return longest_title
 
+
 def get_date_avg(file_name):
+    """Return and print  average release date of all games from the file"""
     content = open_file(file_name)
     year_index = 2
     sum_of_release_dates = 0
     for game in content:
         sum_of_release_dates += float(game[year_index])
     avg = int(sum_of_release_dates / len(content)) + (sum_of_release_dates % len(content) > 0)
+    print("Average release date is {0}.".format(avg))
     return avg
 
+
 def get_game(file_name, title):
+    """Return and print  properties of a given game"""
     content = open_file(file_name)
     game_properties = []
     title_index = 0
@@ -74,5 +90,21 @@ def get_game(file_name, title):
                 else:
                     content[games][game] = content[games][game].replace("\n", "")
                     game_properties.append(content[games][game])
-
+    print("Game properties of a given game: {0}".format(game_properties))
     return game_properties
+
+
+def print_answers(file_name):
+    """Print answers"""
+    title = input("Title of the game: ")
+    functions = [get_most_played(file_name),
+                 sum_sold(file_name),
+                 get_selling_avg(file_name),
+                 count_longest_title(file_name),
+                 get_date_avg(file_name),
+                 get_game(file_name, title)]
+    for answer in functions:
+        answer
+
+
+print_answers("game_stat.txt")

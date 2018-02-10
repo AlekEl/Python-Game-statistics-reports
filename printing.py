@@ -3,7 +3,7 @@
 
 
 def open_file(file_name):
-    """Opens the file and returns content in form of a list"""
+    """Open the file and return content in form of a list"""
     try:
         with open(file_name, "r") as f:
             content = f.readlines()
@@ -13,14 +13,16 @@ def open_file(file_name):
     except FileNotFoundError as err:
         raise err
 
+
 def count_games(file_name):
-    """Returns number of lines in a file (games)"""
+    """Return and print number of lines in a file (games)"""
     content = open_file(file_name)
     print("Number of games in the file:", len(content))
     return len(content)
 
+
 def decide(file_name, year):
-    """Returns True if there is a game from given year in a file. Otherwise returns False"""
+    """Return and print True if there is a game from given year in a file. Otherwise returns False"""
     if type(year) != int:
         raise ValueError("Not a valid year")
     content = open_file(file_name)
@@ -31,8 +33,9 @@ def decide(file_name, year):
     print("There is no game from {0} in the file".format(year))
     return False
 
+
 def get_latest(file_name):
-    """Returns title of the latest game in the file"""
+    """Return and print title of the latest game in the file"""
     content = open_file(file_name)
     game_name = content[0][0]
     game_year = int(content[0][2])
@@ -46,8 +49,9 @@ def get_latest(file_name):
     print("Latest game from the file:", latest[0])
     return latest[0]
 
+
 def count_by_genre(file_name, genre):
-    """Returns the number of games from given genre from the file"""
+    """Return and print the number of games from given genre from the file"""
     if type(genre) != str:
         raise TypeError("Invalid genre")
     content = open_file(file_name)
@@ -64,6 +68,7 @@ def count_by_genre(file_name, genre):
         print("There are no {0} in the file".format(genre))
     return count
 
+
 def get_line_number_by_title(file_name, title):
     """Returns the number of line of a given game(title) from the file"""
     if type(title) != str:
@@ -78,6 +83,7 @@ def get_line_number_by_title(file_name, title):
     print("{0} is on the {1} line of the file".format(title, line))
     return line
 
+
 def print_answers(file_name):
     try:
         year = int(input("Year of the game: "))
@@ -86,12 +92,12 @@ def print_answers(file_name):
     genre = input("Genre of the game: ")
     title = input("Title of the game: ")
     functions = [count_games(file_name),
-                decide(file_name, year),
-                get_latest(file_name),
-                count_by_genre(file_name, genre),
-                get_line_number_by_title(file_name, title)]
-    answers = ""
+                 decide(file_name, year),
+                 get_latest(file_name),
+                 count_by_genre(file_name, genre),
+                 get_line_number_by_title(file_name, title)]
     for answer in functions:
         answer
+
 
 print_answers("game_stat.txt")

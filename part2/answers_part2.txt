@@ -1,0 +1,6 @@
+Best selling game from the file is Diablo III.
+Sum of copies sold: 187.16
+Average number of copies sold: 7.798333333333333
+Longest title rom the file has 52 characters
+Average release date is 2003.
+Game properties of a given game: ['Minecraft', 23.0, 2009, 'Survival game', 'Microsoft']

@@ -12,10 +12,12 @@ def open_file(file_name):
     except FileNotFoundError as err:
         raise err
 
+
 def count_games(file_name):
     """Returns number of lines in a file (games)"""
     content = open_file(file_name)
     return len(content)
+
 
 def decide(file_name, year):
     """Returns True if there is a game from given year in a file. Otherwise returns False"""
@@ -26,6 +28,7 @@ def decide(file_name, year):
         if str(year) in game:
             return True
     return False
+
 
 def get_latest(file_name):
     """Returns title of the latest game in the file"""
@@ -41,6 +44,7 @@ def get_latest(file_name):
             latest[1] = game_year
     return latest[0]
 
+
 def count_by_genre(file_name, genre):
     """Returns the number of games from given genre from the file"""
     if type(genre) != str:
@@ -52,6 +56,7 @@ def count_by_genre(file_name, genre):
         if genre.lower() == game[genre_index].lower():
             count += 1
     return count
+
 
 def get_line_number_by_title(file_name, title):
     """Returns the number of line of a given game(title) from the file"""
