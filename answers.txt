@@ -1,0 +1,5 @@
+Number of games in the file: 24
+There is a game from 2011 in the file
+Latest game from the file: Diablo III
+There is one Survival game in the file
+Diablo III is on the 4 line of the file
