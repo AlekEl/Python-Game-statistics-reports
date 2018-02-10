@@ -37,14 +37,13 @@ def sum_sold(file_name):
     sum_of_copies_sold = 0
     for game in content:
         sum_of_copies_sold += float(game[copies_sold_index])
-    print("Sum of copies sold: {0}".format(sum_of_copies_sold))
-    return sum_of_copies_sold
+    return sum_of_copies_sold, "Sum of copies sold: {0}".format(sum_of_copies_sold)
 
 
 def get_selling_avg(file_name):
     """Return and print  average number of sold copies from all the games from file"""
     content = open_file(file_name)
-    avg = sum_sold(file_name)/len(content)
+    avg = sum_sold(file_name)[0]/len(content)
     print("Average number of copies sold: {0}".format(avg))
     return avg
 
@@ -94,15 +93,56 @@ def get_game(file_name, title):
     return game_properties
 
 
+def count_grouped_by_genre(file_name):
+    """Return and print dictionary with games grouped by genre"""
+    content = open_file(file_name)
+    genre_index = 3
+    genres = {}
+    for game in content:
+        if game[genre_index] in genres:
+            genres[game[genre_index]] += 1
+        else:
+            genres[game[genre_index]] = 1
+    print("Games grouped by genre: {0}".format(genres))
+    return genres
+
+
+def get_date_ordered(file_name):
+    """Return and print list with games sorted by realase year"""
+    content = open_file(file_name)
+    title_index = 0
+    tuple_title_index = 1
+    year_index = 2
+    games_dict = {}
+    arr = []
+    for game in content:
+        if int(game[year_index]) in games_dict:
+            games_dict[int(game[year_index])].append(game[title_index])
+        else:
+            games_dict[int(game[year_index])] = [game[title_index]]
+    sorted_list = [(k, games_dict[k]) for k in sorted(games_dict)]
+    sorted_list.reverse()
+    counter = 0
+    for game in sorted_list:
+        arr.append(game[tuple_title_index])
+        arr[counter].sort()
+        counter += 1
+    arr = [item for sublist in arr for item in sublist]
+    print("Games sorted by release year: {0}".format(arr))
+    return arr
+
+
 def print_answers(file_name):
     """Print answers"""
     title = input("Title of the game: ")
     functions = [get_most_played(file_name),
-                 sum_sold(file_name),
+                 print(sum_sold(file_name)[1]),
                  get_selling_avg(file_name),
                  count_longest_title(file_name),
                  get_date_avg(file_name),
-                 get_game(file_name, title)]
+                 get_game(file_name, title),
+                 count_grouped_by_genre(file_name),
+                 get_date_ordered(file_name)]
     for answer in functions:
         answer
 

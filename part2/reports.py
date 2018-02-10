@@ -23,7 +23,7 @@ def get_most_played(file_name):
     for game in range(1, len(content)):
         game_name = content[game][0]
         copies_sold = int(content[game][2])
-        if best_selling_game[1] < copies_sold:
+        if best_selling_game[1] > copies_sold:
             best_selling_game[0] = game_name
             best_selling_game[1] = copies_sold
     return best_selling_game[0]
@@ -86,3 +86,40 @@ def get_game(file_name, title):
                     content[games][game] = content[games][game].replace("\n", "")
                     game_properties.append(content[games][game])
     return game_properties
+
+
+def count_grouped_by_genre(file_name):
+    """Return dictionary with games grouped by genre"""
+    content = open_file(file_name)
+    genre_index = 3
+    genres = {}
+    for game in content:
+        if game[genre_index] in genres:
+            genres[game[genre_index]] += 1
+        else:
+            genres[game[genre_index]] = 1
+    return genres
+
+
+def get_date_ordered(file_name):
+    """Return list with games sorted by realase year"""
+    content = open_file(file_name)
+    title_index = 0
+    tuple_title_index = 1
+    year_index = 2
+    games_dict = {}
+    arr = []
+    for game in content:
+        if int(game[year_index]) in games_dict:
+            games_dict[int(game[year_index])].append(game[title_index])
+        else:
+            games_dict[int(game[year_index])] = [game[title_index]]
+    sorted_list = [(k, games_dict[k]) for k in sorted(games_dict)]
+    sorted_list.reverse()
+    counter = 0
+    for game in sorted_list:
+        arr.append(game[tuple_title_index])
+        arr[counter].sort()
+        counter += 1
+    arr = [item for sublist in arr for item in sublist]
+    return arr

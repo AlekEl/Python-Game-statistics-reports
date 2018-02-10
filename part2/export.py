@@ -88,6 +88,43 @@ def get_game(file_name, title):
     return "Game properties of a given game: {0}\n".format(game_properties)
 
 
+def count_grouped_by_genre(file_name):
+    """Return and print dictionary with games grouped by genre"""
+    content = open_file(file_name)
+    genre_index = 3
+    genres = {}
+    for game in content:
+        if game[genre_index] in genres:
+            genres[game[genre_index]] += 1
+        else:
+            genres[game[genre_index]] = 1
+    return "Games grouped by genre: {0}".format(genres)
+
+
+def get_date_ordered(file_name):
+    """Return and print list with games sorted by realase year"""
+    content = open_file(file_name)
+    title_index = 0
+    tuple_title_index = 1
+    year_index = 2
+    games_dict = {}
+    arr = []
+    for game in content:
+        if int(game[year_index]) in games_dict:
+            games_dict[int(game[year_index])].append(game[title_index])
+        else:
+            games_dict[int(game[year_index])] = [game[title_index]]
+    sorted_list = [(k, games_dict[k]) for k in sorted(games_dict)]
+    sorted_list.reverse()
+    counter = 0
+    for game in sorted_list:
+        arr.append(game[tuple_title_index])
+        arr[counter].sort()
+        counter += 1
+    arr = [item for sublist in arr for item in sublist]
+    return "Games sorted by release year: {0}".format(arr)
+
+
 def export_answers(file_name):
     title = input("Title of the game: ")
     functions = [get_most_played(file_name),
@@ -95,7 +132,9 @@ def export_answers(file_name):
                  get_selling_avg(file_name),
                  count_longest_title(file_name),
                  get_date_avg(file_name),
-                 get_game(file_name, title)]
+                 get_game(file_name, title),
+                 count_grouped_by_genre(file_name),
+                 get_date_ordered(file_name)]
     answers = ""
     for answer in functions:
         answers += answer
