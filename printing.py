@@ -78,7 +78,7 @@ def get_line_number_by_title(file_name, title):
     print("{0} is on the {1} line of the file".format(title, line))
     return line
 
-def export_answers(file_name):
+def print_answers(file_name):
     try:
         year = int(input("Year of the game: "))
     except ValueError as err:
@@ -94,4 +94,4 @@ def export_answers(file_name):
     for answer in functions:
         answer
 
-export_answers("game_stat.txt")
+print_answers("game_stat.txt")
