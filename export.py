@@ -78,6 +78,51 @@ def get_line_number_by_title(file_name, title):
     return "{0} is on the {1} line of the file\n".format(title, line)
 
 
+def quick_sort(lst):
+    """Sorting algorithm"""
+    if not lst:
+        return []
+    return (quick_sort([x for x in lst[1:] if x < lst[0]])
+            + [lst[0]] +
+            quick_sort([x for x in lst[1:] if x >= lst[0]]))
+
+
+def sort_abc(file_name):
+    """Sort, print and return title list"""
+    content = open_file(file_name)
+    title_index = 0
+    arr = [game[title_index] for game in content]
+    arr = quick_sort(arr)
+    return "Sorted title list: {0}\n".format(arr)
+
+
+def get_genres(file_name):
+    """Return and print sorted genre list without duplicates"""
+    content = open_file(file_name)
+    genre_index = 3
+    genres = list(set([game[genre_index] for game in content]))
+    genres = quick_sort(genres)
+    return "Genre list: {0}\n".format(genres)
+
+
+def when_was_top_sold_fps(file_name):
+    """Return nad print year of a top selling fps game"""
+    content = open_file(file_name)
+    copies_sold_index = 1
+    year_index = 2
+    genre_index = 3
+    best_selling_fps = []
+    for game in content:
+        if game[genre_index] == "First-person shooter":
+            if len(best_selling_fps) == 0:
+                best_selling_fps = [float(game[copies_sold_index]), game[year_index]]
+            elif best_selling_fps[0] < float(game[copies_sold_index]):
+                best_selling_fps = [float(game[copies_sold_index]), game[year_index]]
+    if len(best_selling_fps) == 0:
+        raise ValueError("No fps game in the file")
+    return "Release date of best selling fps: {0}\n".format(int(best_selling_fps[1]))
+
+
 def export_answers(file_name):
     try:
         year = int(input("Year of the game: "))
@@ -89,7 +134,10 @@ def export_answers(file_name):
                  decide(file_name, year),
                  get_latest(file_name),
                  count_by_genre(file_name, genre),
-                 get_line_number_by_title(file_name, title)]
+                 get_line_number_by_title(file_name, title),
+                 sort_abc(file_name),
+                 get_genres(file_name),
+                 when_was_top_sold_fps(file_name)]
     answers = ""
     for answer in functions:
         answers += answer
